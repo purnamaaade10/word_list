@@ -54,7 +54,8 @@
         }
 
         function save_word() {
-            let defs = {{ definitions | tojson }};
+            let defs = {{ definitions | tojson
+        }};
 
         for (let i = 0; i < defs.length; i++) {
             let def = defs[i];
@@ -111,18 +112,18 @@
         }
 
         function get_examples() {
-            let list =  $('#example-list');
+            let list = $('#example-list');
             list.empty();
             $.ajax({
                 type: 'GET',
                 url: `/api/get_exs?word=${word}`,
                 data: {},
-                success: function (response){
+                success: function (response) {
                     console.log(response)
                     if (response.result === 'success') {
                         let examples = response.examples;
                         let temp_html = '';
-                        for (let i =0; i < examples.length; i++) {
+                        for (let i = 0; i < examples.length; i++) {
                             let example = examples[i];
                             let id = example.id;
                             let sentence = example.example;
@@ -143,8 +144,8 @@
             $.ajax({
                 type: 'POST',
                 url: `/api/save_ex`,
-                data: {example: new_ex, word: word,},
-                success: function (response){
+                data: { example: new_ex, word: word, },
+                success: function (response) {
                     console.log(response)
                     if (response.result === 'success') {
                         alert(response.msg);
@@ -159,12 +160,12 @@
             $.ajax({
                 type: 'POST',
                 url: `/api/delete_ex`,
-                data: {word:word, id:id},
-                success: function (response){
+                data: { word: word, id: id },
+                success: function (response) {
                     if (response.result === 'success') {
                         alert(response.msg);
                         get_examples()
-                    } 
+                    }
                 }
             })
         }
@@ -202,18 +203,18 @@
             <hr />
 
             {% if status == 'new' %}
-                <button onclick="save_word()" id="btn-save" class="btn btn-lx-outline btn-lg">Save</button>
+            <button onclick="save_word()" id="btn-save" class="btn btn-lx-outline btn-lg">Save</button>
             {% else %}
-                <button onclick="delete_word()" id="btn-delete" class="btn btn-lx btn-lg">Delete</button>
+            <button onclick="delete_word()" id="btn-delete" class="btn btn-lx btn-lg">Delete</button>
 
-                <div id="examples" class="container">
-                    <h3 style="text-align: center; margin-bottom: 1rem;">Write your own sentence!</h3>
-                    <ul id="example-list"></ul>
-                    <div class="d-flex justify-content-between" style="margin-left: 20px;">
-                        <input id="new-example" class="form-control form-control-sm" style="margin-right: 0.5rem;">
-                        <button class="btn btn-outline-secondary btn-sm" onclick="add_ex()">add</button>
-                    </div>
+            <div id="examples" class="container">
+                <h3 style="text-align: center; margin-bottom: 1rem;">Write your own sentence!</h3>
+                <ul id="example-list"></ul>
+                <div class="d-flex justify-content-between" style="margin-left: 20px;">
+                    <input id="new-example" class="form-control form-control-sm" style="margin-right: 0.5rem;">
+                    <button class="btn btn-outline-secondary btn-sm" onclick="add_ex()">add</button>
                 </div>
+            </div>
 
             {% endif %}
         </div>

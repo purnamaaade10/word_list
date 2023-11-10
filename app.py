@@ -3,15 +3,20 @@ from pymongo import MongoClient
 import requests
 from datetime import datetime
 from bson import ObjectId
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
-password = 'learningx'
-url = f'mongodb+srv://tes:{password}@cluster0.cyjbgzl.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp'
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
-users = MongoClient(url)
+MONGODB_URI = os.environ.get("MONGODB_URI")
+DB_NAME =  os.environ.get("DB_NAME")
 
-database = users.dblearningx
+client = MongoClient(MONGODB_URI)
+database = client[DB_NAME]
 
 @app.route('/')
 def main():
